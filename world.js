@@ -1,6 +1,5 @@
-import Primitive from './Primitive.js'
 import { createControls } from "/system/controls.js";
-
+import * as population_managemenet from './popuation_management/population.js';
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -15,11 +14,13 @@ scene.add(axesHelper);
 
 camera.position.set(0, 0, 20);
 
-var P1 = new Primitive();
-var P2 = new Primitive();
+var Phenotypes = population_managemenet.Population_INIT();
 
-P1.draw(scene);
-P2.draw(scene);
+//DRAW GENERATED POPULATION
+
+Phenotypes[0][0].draw(scene);
+Phenotypes[0][1].draw(scene);
+Phenotypes[0][2].draw(scene);
 
 var update = function () {
 };
