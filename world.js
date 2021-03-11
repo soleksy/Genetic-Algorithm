@@ -1,3 +1,4 @@
+import Primitive from './Primitive.js'
 import { createControls } from "/system/controls.js";
 
 var scene = new THREE.Scene();
@@ -14,10 +15,11 @@ scene.add(axesHelper);
 
 camera.position.set(0, 0, 20);
 
-const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
-const cube = new THREE.Mesh( geometry, material );
-scene.add(cube);
+var P1 = new Primitive();
+var P2 = new Primitive();
+
+P1.draw(scene);
+P2.draw(scene);
 
 var update = function () {
 };
