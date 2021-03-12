@@ -109,6 +109,16 @@ export default class Primitive {
         scene.add(this.genotype)
     }
 
+    get_mass(){
+        var Volume = this.width*this.height*this.depth*20*20*20;
+        return Volume * 0.71;
+    }
+
+    get_extents(){
+        extents = [this.min_x,this.max_x,this.min_y,this.max_y,this.min_z,this.max_z];
+        return extents;
+    }
+    
 }
 
 function random_rgba() {
