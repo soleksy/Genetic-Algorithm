@@ -31,16 +31,16 @@ var Population_INIT = function () {
     return genotypes;
 }
 
-var Map_Genotypes_To_Phenotypes = function (genotypes) {
+var StoreGenotypes = function (Phenotypes) {
     var i, j;
-    var Phenotypes = Array.from(Array(CONSTANTS.INITIAL_POPULATION_SIZE), () => new Array(CONSTANTS.PRIMITIVES));
+    var Genotypes = Array.from(Array(CONSTANTS.INITIAL_POPULATION_SIZE), () => new Array(CONSTANTS.PRIMITIVES));
 
     for (i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
         for (j = 0; j < CONSTANTS.PRIMITIVES; j++) {
-            Phenotypes[i][j] = clonePrimitive(genotypes[i][j]);
+            Genotypes[i][j] = clonePrimitive(Phenotypes[i][j]);
         }
     }
-    return Phenotypes;
+    return Genotypes;
 }
 
-export{Population_INIT,clonePhenotype,Map_Genotypes_To_Phenotypes,clonePrimitive}
+export{Population_INIT,clonePhenotype,StoreGenotypes,clonePrimitive}

@@ -3,8 +3,7 @@ import { createControls } from "/system/controls.js";
 import * as population from './algorithm_management/population.js';
 import * as evaluation from './algorithm_management/evaluation.js';
 import * as properties from './algorithm_management/properties.js';
-
-
+import * as utils from './algorithm_management/utils.js';
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -19,24 +18,58 @@ scene.add(axesHelper);
 
 camera.position.set(0, 0, 20);
 
-var Phenotypes = population.Population_INIT();
 
-//DRAW GENERATED POPULATION
+// 1) Generate Initial Population
+var PHENOTYPES = population.Population_INIT();
 
-Phenotypes[0][0].draw(scene);
-Phenotypes[0][1].draw(scene);
-Phenotypes[0][2].draw(scene);
 
-console.log(Phenotypes);
+// 2) Store genotypes for future use, the initial genotypes will be altered due to normalization but the their initial value is needed
+//    for the evolution process.
 
-var sizes = evaluation.calculate_size(Phenotypes);
-var size_eval = evaluation.evaluate_size(sizes);
+var GENOTYPES = [];
+GENOTYPES = population.StoreGenotypes(PHENOTYPES)
 
-var masses = evaluation.calculate_mass(Phenotypes);
-var mass_eval = evaluation.evaluate_mass(masses);
 
-console.log(size_eval);
-console.log(mass_eval);
+// 3) Correct the phenotypes (solve the problem of overlapping) using SAT theorem.
+
+
+
+// 4) Evaluate the corrected phenotypes
+// 5) Perform the standard Genetic Algorithm to obtain new population
+// 6) Repeat the process until some condition 
+
+var GeneticAlgorithm = function() {
+};
+
+var i = 0;
+
+// DRAW THE INITIAL POPULATION
+document.addEventListener("keydown", e => {
+    if (e.code == "ArrowRight"){
+
+        if(i == CONSTANTS.INITIAL_POPULATION_SIZE-1){
+            utils.deletePhenotype(PHENOTYPES,scene,i);
+            utils.drawPhenotype(PHENOTYPES,scene,i);
+        }
+        else{
+            utils.deletePhenotype(PHENOTYPES,scene,i);
+            i+=1;
+            utils.drawPhenotype(PHENOTYPES,scene,i);
+        }
+    }
+
+    else if(e.code =="ArrowLeft"){
+        if(i == 0){
+            utils.deletePhenotype(PHENOTYPES,scene,i);
+            utils.drawPhenotype(PHENOTYPES,scene,i);
+        }
+        else{
+            utils.deletePhenotype(PHENOTYPES,scene,i);
+            i-=1;
+            utils.drawPhenotype(PHENOTYPES,scene,i);
+        }
+    }
+});
 
 
 var update = function () {
