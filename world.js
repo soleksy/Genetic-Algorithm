@@ -32,6 +32,8 @@ GENOTYPES = population.StoreGenotypes(PHENOTYPES)
 
 // 3) Correct the phenotypes (solve the problem of overlapping) using SAT theorem.
 
+population.Fix_Overlapping_Primitives(PHENOTYPES);
+
 
 
 // 4) Evaluate the corrected phenotypes

@@ -1,6 +1,6 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import Primitive from '../Primitive.js';
-
+import * as math from './math.js';
 var clonePhenotype = function(Phenotype)
 {
     var clonePhenotype = [];
@@ -43,4 +43,22 @@ var StoreGenotypes = function (Phenotypes) {
     return Genotypes;
 }
 
-export{Population_INIT,clonePhenotype,StoreGenotypes,clonePrimitive}
+
+var Fix_Overlapping_Primitives = function (Phenotypes) {
+    var i, j, m;
+    for (i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+        for (j = 0; j < CONSTANTS.PRIMITIVES; j++) {
+            for (m = j + 1; m < CONSTANTS.PRIMITIVES; m++) {
+                var polyA = new SAT.Shape(Phenotypes[i][j].points,CONSTANTS.FACES,CONSTANTS.EDGES);
+                var polyB = new SAT.Shape(Phenotypes[i][m].points,CONSTANTS.FACES,CONSTANTS.EDGES);
+                if (SAT.CheckCollision(polyA,polyB)) {
+                    var axes = math.point_from_plane(Phenotypes[i][j].center, Phenotypes[i][m].center)
+                    math.sides_to_squash(Phenotypes[i][j], Phenotypes[i][m], axes);
+                }
+            }
+        }
+    }
+}
+
+
+export{Population_INIT,clonePhenotype,StoreGenotypes,clonePrimitive,Fix_Overlapping_Primitives}
