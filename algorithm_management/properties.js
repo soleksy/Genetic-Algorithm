@@ -1,6 +1,6 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 
-var get_design_extents = function(Phenotype){
+var get_design_extents = (Phenotype) => {
     var j;
     var max_x = 0;
     var max_y = 0;

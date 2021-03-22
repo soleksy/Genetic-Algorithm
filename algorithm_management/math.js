@@ -2,7 +2,7 @@
 //given point at center of primitive1 generate 3 planes perpendicular to each other, at the same time parallel to corresponding axis
 //find the longest distance between p2 and every such plane.
 
-var point_from_plane = function (center1, center2) {
+var find_axis =  (center1, center2) => {
 
     var plane_x = new THREE.Plane();
     plane_x.setFromNormalAndCoplanarPoint(new THREE.Vector3(1, 0, 0), center1);
@@ -33,7 +33,7 @@ var point_from_plane = function (center1, center2) {
 }
 
 //finds the sides of the primitives which has to be squashed
-var sides_to_squash = function (p1, p2, axes) {
+var find_sides =  (p1, p2, axes) => {
     if (axes == "x") {
         var l1 = p1.max_x - p1.min_x;
         var l2 = p2.max_x - p2.min_x;
@@ -255,4 +255,4 @@ var sides_to_squash = function (p1, p2, axes) {
 
 
 
-export {point_from_plane, sides_to_squash}
+export {find_axis, find_sides}

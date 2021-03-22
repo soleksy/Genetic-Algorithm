@@ -1,6 +1,6 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import * as properties from './properties.js';
-var calculate_mass = function (Phenotypes) {
+var calculate_mass =  (Phenotypes) => {
     var i,j;
     var masses = [];
     for(j = 0; j < CONSTANTS.INITIAL_POPULATION_SIZE; j++){
@@ -16,7 +16,7 @@ var calculate_mass = function (Phenotypes) {
     return masses;
 }
 
-var evaluate_mass = function(masses){
+var evaluate_mass = (masses) => {
     var mass_evaluation = [];
     for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
 
@@ -35,7 +35,7 @@ var evaluate_mass = function(masses){
 }
 
 
-var calculate_size = function (Phenotypes) {
+var calculate_size = (Phenotypes) => {
     var i;
     var size = [];
     
@@ -52,7 +52,7 @@ var calculate_size = function (Phenotypes) {
     return size;
 }
 
-var evaluate_size = function(sizes){
+var evaluate_size = (sizes) => {
     var evaluation = [];
     for(var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++){
         if (sizes[i] >= CONSTANTS.IDEAL_SIZE) {

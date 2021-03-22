@@ -121,7 +121,7 @@ export default class Primitive {
     
 }
 
-function random_rgba() {
+var random_rgba = () => {
     var o = Math.round, r = Math.random, s = 255;
     return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ')';
 }

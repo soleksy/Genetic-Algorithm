@@ -40,7 +40,7 @@ population.Fix_Overlapping_Primitives(PHENOTYPES);
 // 5) Perform the standard Genetic Algorithm to obtain new population
 // 6) Repeat the process until some condition 
 
-var GeneticAlgorithm = function() {
+var GeneticAlgorithm = () => {
 };
 
 var i = 0;
@@ -60,7 +60,7 @@ document.addEventListener("keydown", e => {
         }
     }
 
-    else if(e.code =="ArrowLeft"){
+    else if(e.code == "ArrowLeft"){
         if(i == 0){
             utils.deletePhenotype(PHENOTYPES,scene,i);
             utils.drawPhenotype(PHENOTYPES,scene,i);
@@ -74,14 +74,14 @@ document.addEventListener("keydown", e => {
 });
 
 
-var update = function () {
+var update =  () => {
 };
 
-var render = function () {
+var render =  () =>  {
     renderer.render(scene, camera);
 };
 
-var MainLoop = function () {
+var MainLoop =  () =>  {
 
     requestAnimationFrame(MainLoop);
     update();
