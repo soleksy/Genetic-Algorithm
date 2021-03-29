@@ -1,6 +1,7 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import * as properties from './properties.js';
-
+import * as math from './math.js';
+import * as utils from './utils.js';
 // MASS EVALUATION //
 
 var calculate_mass = (Phenotypes) => {
@@ -85,6 +86,44 @@ var evalulate_heights = (heights) => {
   return height_evaluation;
 };
 
+var evaluate_distances = (Phenotypes) => {
+  var distance;
+  var distance_eval = [];
+  for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+    var arr = math.calculate_desired_center_of_mass(Phenotypes[i]);
+    var center_of_mass = math.calculate_center_of_mass(Phenotypes[i]);
+    distance = math.distance_between_points(
+      [arr[0], arr[1], arr[2]],
+      [center_of_mass[0], arr[1], center_of_mass[2]]
+    );
+    if (
+      math.is_inside([arr[0], arr[1], arr[2]], center_of_mass, arr[3], arr[4])
+    ) {
+      if (distance < 1) {
+        distance_eval[i] = 1 - distance;
+      } else {
+        distance_eval[i] = 0;
+      }
+    } else {
+      distance_eval[i] = 0;
+    }
+  }
+  return distance_eval;
+};
+
+var evaluate_connectivity = (Phenotypes) => {
+  var isdisconnected = [];
+  for (var i = 0; i < Phenotypes.length; i++) {
+    isdisconnected[i] = utils.is_disconnected(
+      Phenotypes[i],
+      CONSTANTS.FACES,
+      CONSTANTS.EDGES
+    );
+  }
+
+  return isdisconnected;
+};
+
 export {
   calculate_mass,
   evaluate_mass,
@@ -92,4 +131,6 @@ export {
   evaluate_size,
   calculate_heights,
   evalulate_heights,
+  evaluate_distances,
+  evaluate_connectivity,
 };

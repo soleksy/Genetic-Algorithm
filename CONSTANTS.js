@@ -4,6 +4,7 @@ const PRIMITIVES = 4;
 const IDEAL_MASS = 450;
 const IDEAL_SIZE = 250;
 
+const IS_DISCONNECTED = 0.3;
 const IDEAL_TABLE_HEIGHT = 4;
 
 const EDGES = [
@@ -38,4 +39,5 @@ export {
   EDGES,
   FACES,
   IDEAL_TABLE_HEIGHT,
+  IS_DISCONNECTED,
 };

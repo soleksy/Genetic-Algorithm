@@ -1,3 +1,4 @@
+import * as CONSTANTS from '../CONSTANTS.js';
 //given point at center of primitive1 generate 3 planes perpendicular to each other, at the same time parallel to corresponding axis
 //find the longest distance between p2 and every such plane.
 
@@ -230,7 +231,7 @@ var find_sides = (p1, p2, axes) => {
   }
 };
 
-var distance_between_points = function (p1, p2) {
+var distance_between_points = (p1, p2) => {
   var x_diff = Math.abs(p1[0] - p2[0]);
   var y_diff = Math.abs(p1[1] - p2[1]);
   var z_diff = Math.abs(p1[2] - p2[2]);
@@ -240,11 +241,11 @@ var distance_between_points = function (p1, p2) {
   return dist;
 };
 
-var calculate_desired_center_of_mass = function (Phenotype) {
+var calculate_desired_center_of_mass = (Phenotype) => {
   var point = [];
   var min_height = 0;
   var h;
-  for (var i = 0; i < PRIMITIVES; i++) {
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
     if (i == 0) {
       min_height = Phenotype[i].y - Phenotype[i].height / 2;
       h = i;
@@ -265,9 +266,69 @@ var calculate_desired_center_of_mass = function (Phenotype) {
   return point;
 };
 
+var center_of_mass = (points, masses) => {
+  var total_mass = 0;
+  var x_com = 0;
+  var y_com = 0;
+  var z_com = 0;
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    total_mass += masses[i];
+  }
+
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    x_com += points[i].x * masses[i];
+  }
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    y_com += points[i].y * masses[i];
+  }
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    z_com += points[i].z * masses[i];
+  }
+
+  x_com /= total_mass;
+  y_com /= total_mass;
+  z_com /= total_mass;
+
+  return [x_com, y_com, z_com];
+};
+
+var calculate_center_of_mass = (Phenotype) => {
+  var points = [];
+  var masses = [];
+  var com = [];
+
+  for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    points[i] = Phenotype[i].center;
+    masses[i] = Phenotype[i].get_mass();
+  }
+  com = center_of_mass(points, masses);
+
+  return com;
+};
+var is_inside = function (p1, p2, width, depth) {
+  var x_min = p1[0] - width / 2;
+  var x_max = p1[0] + width / 2;
+
+  var z_min = p1[2] - depth / 2;
+  var z_max = p1[2] + depth / 2;
+
+  if (p2[0] <= x_max && p2[0] >= x_min) {
+    if (p2[2] <= z_max && p2[2] >= z_min) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
 export {
   find_axis,
   find_sides,
   distance_between_points,
   calculate_desired_center_of_mass,
+  calculate_center_of_mass,
+  center_of_mass,
+  is_inside,
 };

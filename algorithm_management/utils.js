@@ -34,4 +34,41 @@ var BFS = (adjency_matrix, start_node) => {
   return visited_counter;
 };
 
-export { drawPhenotype, deletePhenotype, BFS };
+var is_disconnected = (Phenotype) => {
+  var i, j;
+  var connectivity = Array.from(
+    Array(CONSTANTS.PRIMITIVES),
+    () => new Array(CONSTANTS.PRIMITIVES)
+  );
+  for (i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+    for (j = 0; j < CONSTANTS.PRIMITIVES; j++) {
+      var polyA = new SAT.Shape(
+        Phenotype[i].points,
+        CONSTANTS.FACES,
+        CONSTANTS.EDGES
+      );
+      var polyB = new SAT.Shape(
+        Phenotype[j].points,
+        CONSTANTS.FACES,
+        CONSTANTS.EDGES
+      );
+      if (i == j) {
+        connectivity[i][j] = 0;
+      } else if (SAT.CheckCollision(polyA, polyB)) {
+        connectivity[i][j] = 1;
+      } else {
+        connectivity[i][j] = 0;
+      }
+    }
+  }
+
+  var visited = BFS(connectivity, 0);
+
+  if (visited == CONSTANTS.PRIMITIVES) {
+    return 1;
+  } else {
+    return CONSTANTS.IS_DISCONNECTED;
+  }
+};
+
+export { drawPhenotype, deletePhenotype, BFS, is_disconnected };
