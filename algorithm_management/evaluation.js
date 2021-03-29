@@ -1,5 +1,8 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import * as properties from './properties.js';
+
+// MASS EVALUATION //
+
 var calculate_mass =  (Phenotypes) => {
     var i,j;
     var masses = [];
@@ -34,6 +37,7 @@ var evaluate_mass = (masses) => {
     return mass_evaluation;
 }
 
+// SIZE EVALUATION //
 
 var calculate_size = (Phenotypes) => {
     var i;

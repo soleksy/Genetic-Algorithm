@@ -37,6 +37,21 @@ population.Fix_Overlapping_Primitives(PHENOTYPES);
 
 
 // 4) Evaluate the corrected phenotypes
+    // calculate & evaluate mass
+    var masses = evaluation.calculate_mass(PHENOTYPES);
+    var mass_eval = evaluation.evaluate_mass(masses);
+
+    //calculate & evaluate size
+    var sizes = evaluation.calculate_size(PHENOTYPES);
+    var size_eval = evaluation.evaluate_size(sizes);
+
+    console.log(mass_eval);
+    console.log(size_eval);
+    //calculate & evaluate height
+    // evaluate distance
+    //calculate && evaluate table top area
+
+
 // 5) Perform the standard Genetic Algorithm to obtain new population
 // 6) Repeat the process until some condition 
 
