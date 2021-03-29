@@ -7,6 +7,8 @@ const IDEAL_SIZE = 250;
 const IS_DISCONNECTED = 0.3;
 const IDEAL_TABLE_HEIGHT = 4;
 
+const IDEAL_COUNTER_AREA = 10000;
+
 const EDGES = [
   [0, 1],
   [1, 2],
@@ -40,4 +42,5 @@ export {
   FACES,
   IDEAL_TABLE_HEIGHT,
   IS_DISCONNECTED,
+  IDEAL_COUNTER_AREA,
 };

@@ -305,7 +305,7 @@ var calculate_center_of_mass = (Phenotype) => {
 
   return com;
 };
-var is_inside = function (p1, p2, width, depth) {
+var is_inside = (p1, p2, width, depth) => {
   var x_min = p1[0] - width / 2;
   var x_max = p1[0] + width / 2;
 

@@ -55,11 +55,15 @@ var connect = evaluation.evaluate_connectivity(PHENOTYPES);
 
 //calculate && evaluate table top area
 
+var top = evaluation.calculate_table_top(PHENOTYPES);
+var top_eval = evaluation.evaluate_table_top(top);
+
 console.log(mass_eval);
 console.log(size_eval);
 console.log(heights_eval);
 console.log(dist);
 console.log(connect);
+console.log(top_eval);
 
 // 5) Perform the standard Genetic Algorithm to obtain new population
 // 6) Repeat the process until some condition

@@ -124,6 +124,37 @@ var evaluate_connectivity = (Phenotypes) => {
   return isdisconnected;
 };
 
+var calculate_table_top = (Phenotypes) => {
+  var areas = [];
+  var max_height;
+  var h;
+  for (var j = 0; j < CONSTANTS.INITIAL_POPULATION_SIZE; j++) {
+    max_height = 0;
+    for (var i = 0; i < CONSTANTS.PRIMITIVES; i++) {
+      if (max_height < Phenotypes[j][i].y + Phenotypes[j][i].height / 2) {
+        max_height = Phenotypes[j][i].y + Phenotypes[j][i].height / 2;
+        h = i;
+      }
+    }
+
+    areas[j] = Phenotypes[j][h].width * 20 * 20 * Phenotypes[j][h].depth;
+  }
+  return areas;
+};
+
+var evaluate_table_top = (areas) => {
+  var table_top_eval = [];
+  for (var j = 0; j < CONSTANTS.INITIAL_POPULATION_SIZE; j++) {
+    if (areas[j] >= CONSTANTS.IDEAL_COUNTER_AREA) {
+      table_top_eval[j] = CONSTANTS.IDEAL_COUNTER_AREA / areas[j];
+    } else {
+      table_top_eval[j] = areas[j] / CONSTANTS.IDEAL_COUNTER_AREA;
+    }
+  }
+
+  return table_top_eval;
+};
+
 export {
   calculate_mass,
   evaluate_mass,
@@ -133,4 +164,6 @@ export {
   evalulate_heights,
   evaluate_distances,
   evaluate_connectivity,
+  calculate_table_top,
+  evaluate_table_top,
 };
