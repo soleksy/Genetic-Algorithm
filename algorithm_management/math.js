@@ -230,4 +230,44 @@ var find_sides = (p1, p2, axes) => {
   }
 };
 
-export { find_axis, find_sides };
+var distance_between_points = function (p1, p2) {
+  var x_diff = Math.abs(p1[0] - p2[0]);
+  var y_diff = Math.abs(p1[1] - p2[1]);
+  var z_diff = Math.abs(p1[2] - p2[2]);
+
+  var dist = Math.sqrt(x_diff * x_diff + y_diff * y_diff + z_diff * z_diff);
+
+  return dist;
+};
+
+var calculate_desired_center_of_mass = function (Phenotype) {
+  var point = [];
+  var min_height = 0;
+  var h;
+  for (var i = 0; i < PRIMITIVES; i++) {
+    if (i == 0) {
+      min_height = Phenotype[i].y - Phenotype[i].height / 2;
+      h = i;
+    } else if (min_height > Phenotype[i].y - Phenotype[i].height / 2) {
+      min_height = Phenotype[i].y - Phenotype[i].height / 2;
+      h = i;
+    }
+  }
+
+  point = [
+    Phenotype[h].x,
+    Phenotype[h].y - Phenotype[h].height / 2,
+    Phenotype[h].z,
+    Phenotype[h].width,
+    Phenotype[h].depth,
+  ];
+
+  return point;
+};
+
+export {
+  find_axis,
+  find_sides,
+  distance_between_points,
+  calculate_desired_center_of_mass,
+};

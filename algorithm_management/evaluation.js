@@ -63,4 +63,33 @@ var evaluate_size = (sizes) => {
   return evaluation;
 };
 
-export { calculate_mass, evaluate_mass, calculate_size, evaluate_size };
+var calculate_heights = (Phenotypes) => {
+  var heights = [];
+  for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+    var extents = properties.get_design_extents(Phenotypes[i]);
+    heights[i] = Math.abs(extents[2] - extents[3]);
+  }
+  return heights;
+};
+
+var evalulate_heights = (heights) => {
+  var height_evaluation = [];
+  for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+    if (heights[i] >= CONSTANTS.IDEAL_TABLE_HEIGHT) {
+      height_evaluation[i] = CONSTANTS.IDEAL_TABLE_HEIGHT / heights[i];
+    } else {
+      height_evaluation[i] = heights[i] / CONSTANTS.IDEAL_TABLE_HEIGHT;
+    }
+  }
+
+  return height_evaluation;
+};
+
+export {
+  calculate_mass,
+  evaluate_mass,
+  calculate_size,
+  evaluate_size,
+  calculate_heights,
+  evalulate_heights,
+};

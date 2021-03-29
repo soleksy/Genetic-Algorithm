@@ -45,11 +45,16 @@ var mass_eval = evaluation.evaluate_mass(masses);
 var sizes = evaluation.calculate_size(PHENOTYPES);
 var size_eval = evaluation.evaluate_size(sizes);
 
-console.log(mass_eval);
-console.log(size_eval);
 //calculate & evaluate height
+var heights = evaluation.calculate_heights(PHENOTYPES);
+var heights_eval = evaluation.evalulate_heights(heights);
+
 // evaluate distance
 //calculate && evaluate table top area
+
+console.log(mass_eval);
+console.log(size_eval);
+console.log(heights_eval);
 
 // 5) Perform the standard Genetic Algorithm to obtain new population
 // 6) Repeat the process until some condition
