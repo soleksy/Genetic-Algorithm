@@ -1,6 +1,31 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import Primitive from '../Primitive.js';
 import * as math from './math.js';
+
+var generate_parameters = () => {
+  var x =
+    Math.floor(Math.random() * (CONSTANTS.MAXPOS - CONSTANTS.MINPOS + 1)) +
+    CONSTANTS.MINPOS;
+  var y =
+    Math.floor(Math.random() * (CONSTANTS.MAXPOS - CONSTANTS.MINPOS + 1)) +
+    CONSTANTS.MINPOS;
+  var z =
+    Math.floor(Math.random() * (CONSTANTS.MAXPOS - CONSTANTS.MINPOS + 1)) +
+    CONSTANTS.MINPOS;
+
+  var height =
+    Math.floor(Math.random() * (CONSTANTS.MAXLEN - CONSTANTS.MINLEN + 1)) +
+    CONSTANTS.MINLEN;
+  var width =
+    Math.floor(Math.random() * (CONSTANTS.MAXLEN - CONSTANTS.MINLEN + 1)) +
+    CONSTANTS.MINLEN;
+  var depth =
+    Math.floor(Math.random() * (CONSTANTS.MAXLEN - CONSTANTS.MINLEN + 1)) +
+    CONSTANTS.MINLEN;
+
+  return [x, y, z, height, width, depth];
+};
+
 var clonePhenotype = (Phenotype) => {
   var clonePhenotype = [];
   for (var j = 0; j < CONSTANTS.PRIMITIVES; j++) {
@@ -25,7 +50,16 @@ var Population_INIT = () => {
 
   for (i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
     for (j = 0; j < CONSTANTS.PRIMITIVES; j++) {
-      genotypes[i][j] = new Primitive();
+      var parameters = generate_parameters();
+
+      genotypes[i][j] = new Primitive(
+        parameters[0],
+        parameters[1],
+        parameters[2],
+        parameters[3],
+        parameters[4],
+        parameters[5]
+      );
     }
   }
   return genotypes;

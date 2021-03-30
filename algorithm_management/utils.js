@@ -71,4 +71,4 @@ var is_disconnected = (Phenotype) => {
   }
 };
 
-export { drawPhenotype, deletePhenotype, BFS, is_disconnected };
+export { drawPhenotype, deletePhenotype, is_disconnected };

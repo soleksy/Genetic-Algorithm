@@ -4,6 +4,7 @@ import * as population from './algorithm_management/population.js';
 import * as evaluation from './algorithm_management/evaluation.js';
 import * as properties from './algorithm_management/properties.js';
 import * as utils from './algorithm_management/utils.js';
+import Primitive from './Primitive.js';
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(
   90,
@@ -37,38 +38,11 @@ GENOTYPES = population.StoreGenotypes(PHENOTYPES);
 population.Fix_Overlapping_Primitives(PHENOTYPES);
 
 // 4) Evaluate the corrected phenotypes
-// calculate & evaluate mass
-var masses = evaluation.calculate_mass(PHENOTYPES);
-var mass_eval = evaluation.evaluate_mass(masses);
-
-//calculate & evaluate size
-var sizes = evaluation.calculate_size(PHENOTYPES);
-var size_eval = evaluation.evaluate_size(sizes);
-
-//calculate & evaluate height
-var heights = evaluation.calculate_heights(PHENOTYPES);
-var heights_eval = evaluation.evalulate_heights(heights);
-
-// evaluate distance & connectivity
-var dist = evaluation.evaluate_distances(PHENOTYPES);
-var connect = evaluation.evaluate_connectivity(PHENOTYPES);
-
-//calculate && evaluate table top area
-
-var top = evaluation.calculate_table_top(PHENOTYPES);
-var top_eval = evaluation.evaluate_table_top(top);
-
-console.log(mass_eval);
-console.log(size_eval);
-console.log(heights_eval);
-console.log(dist);
-console.log(connect);
-console.log(top_eval);
-
+var weighted_sum = evaluation.get_weighted_sum(PHENOTYPES);
+console.log(weighted_sum);
 // 5) Perform the standard Genetic Algorithm to obtain new population
-// 6) Repeat the process until some condition
-
 var GeneticAlgorithm = () => {};
+// 6) Repeat the process until some condition
 
 var i = 0;
 

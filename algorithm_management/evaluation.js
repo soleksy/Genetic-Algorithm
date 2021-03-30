@@ -2,17 +2,17 @@ import * as CONSTANTS from '../CONSTANTS.js';
 import * as properties from './properties.js';
 import * as math from './math.js';
 import * as utils from './utils.js';
+import * as population from './population.js';
 // MASS EVALUATION //
-
 var calculate_mass = (Phenotypes) => {
   var i, j;
   var masses = [];
   for (j = 0; j < CONSTANTS.INITIAL_POPULATION_SIZE; j++) {
     for (i = 0; i < CONSTANTS.PRIMITIVES; i++) {
       if (i == 0) {
-        masses[j] = Phenotypes[j][i].get_mass() / 1000;
+        masses[j] = Phenotypes[j][i].get_mass();
       } else {
-        masses[j] += Phenotypes[j][i].get_mass() / 1000;
+        masses[j] += Phenotypes[j][i].get_mass();
       }
     }
   }
@@ -34,16 +34,18 @@ var evaluate_mass = (masses) => {
 };
 
 // SIZE EVALUATION //
-
+//todo: SET parameter h to be able to constrain space on certain height
 var calculate_size = (Phenotypes) => {
   var i;
   var size = [];
 
   for (i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
     var extents = properties.get_design_extents(Phenotypes[i]);
-    var width = Math.abs(extents[0] - extents[1]);
-    var height = Math.abs(extents[2] - extents[3]);
-    var depth = Math.abs(extents[4] - extents[5]);
+    var width = Math.abs(extents[0] - extents[1]).toFixed(2);
+    var height = Math.abs(extents[2] - extents[3]).toFixed(2);
+    var depth = Math.abs(extents[4] - extents[5]).toFixed(2);
+
+    console.log(width, height, depth);
 
     var p_size = 2 * (width * height + depth * height + depth * width);
     size[i] = p_size;
@@ -64,6 +66,7 @@ var evaluate_size = (sizes) => {
   return evaluation;
 };
 
+// HEIGHT EVALUATION //
 var calculate_heights = (Phenotypes) => {
   var heights = [];
   for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
@@ -86,6 +89,7 @@ var evalulate_heights = (heights) => {
   return height_evaluation;
 };
 
+// EVALUATE DISTANCE FROM CENTER OF MASS AND CENTER OF DESIGN //
 var evaluate_distances = (Phenotypes) => {
   var distance;
   var distance_eval = [];
@@ -111,6 +115,7 @@ var evaluate_distances = (Phenotypes) => {
   return distance_eval;
 };
 
+// EVALUATE THE CONNECTIVITY OF DESIGN //
 var evaluate_connectivity = (Phenotypes) => {
   var isdisconnected = [];
   for (var i = 0; i < Phenotypes.length; i++) {
@@ -123,7 +128,7 @@ var evaluate_connectivity = (Phenotypes) => {
 
   return isdisconnected;
 };
-
+// EVALUATE THE TABLE TOP AREA //
 var calculate_table_top = (Phenotypes) => {
   var areas = [];
   var max_height;
@@ -155,15 +160,49 @@ var evaluate_table_top = (areas) => {
   return table_top_eval;
 };
 
-export {
-  calculate_mass,
-  evaluate_mass,
-  calculate_size,
-  evaluate_size,
-  calculate_heights,
-  evalulate_heights,
-  evaluate_distances,
-  evaluate_connectivity,
-  calculate_table_top,
-  evaluate_table_top,
+var get_weighted_sum = (Phenotypes) => {
+  var masses = [];
+  var mass_eval = [];
+  var sizes = [];
+  var size_eval = [];
+
+  var dist = [];
+  var connect = [];
+
+  var heights = [];
+  var heights_eval = [];
+
+  var top = [];
+  var top_eval = [];
+
+  population.Fix_Overlapping_Primitives(Phenotypes);
+  masses = calculate_mass(Phenotypes);
+  mass_eval = evaluate_mass(masses);
+
+  sizes = calculate_size(Phenotypes);
+  size_eval = evaluate_size(sizes);
+
+  heights = calculate_heights(Phenotypes);
+  heights_eval = evalulate_heights(heights);
+
+  //area = calculate_area(Phenotypes);
+  dist = evaluate_distances(Phenotypes);
+  connect = evaluate_connectivity(Phenotypes, CONSTANTS.FACES, CONSTANTS.EDGES);
+
+  top = calculate_table_top(Phenotypes);
+  top_eval = evaluate_table_top(top);
+
+  var weighted_sum = [];
+  for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+    weighted_sum[i] =
+      (size_eval[i] * CONSTANTS.SIZE_WEIGHT +
+        mass_eval[i] * CONSTANTS.MASS_WEIGHT +
+        dist[i] * CONSTANTS.CENTER_OF_MASS_WEIGHT +
+        heights_eval[i] * CONSTANTS.TABLE_HEIGHT_WEIGHT +
+        top_eval[i] * CONSTANTS.COUNTER_AREA_WEIGHT) *
+      (connect[i] * CONSTANTS.IS_DISCONNECTED_WEIGHT);
+  }
+  return weighted_sum;
 };
+
+export { get_weighted_sum };

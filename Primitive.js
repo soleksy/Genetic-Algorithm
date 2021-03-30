@@ -1,26 +1,13 @@
+import * as CONSTANTS from '../CONSTANTS.js';
+
 export default class Primitive {
-  constructor() {
-    this.minpos = 0;
-    this.maxpos = 5;
-    this.min_len = 1;
-    this.max_len = 5;
-
-    this.x =
-      Math.floor(Math.random() * (this.maxpos - this.minpos + 1)) + this.minpos;
-    this.y =
-      Math.floor(Math.random() * (this.maxpos - this.minpos + 1)) + this.minpos;
-    this.z =
-      Math.floor(Math.random() * (this.maxpos - this.minpos + 1)) + this.minpos;
-
-    this.height =
-      Math.floor(Math.random() * (this.max_len - this.min_len + 1)) +
-      this.min_len;
-    this.width =
-      Math.floor(Math.random() * (this.max_len - this.min_len + 1)) +
-      this.min_len;
-    this.depth =
-      Math.floor(Math.random() * (this.max_len - this.min_len + 1)) +
-      this.min_len;
+  constructor(x, y, z, width, height, depth) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.width = width;
+    this.height = height;
+    this.depth = depth;
 
     this.max_x = this.x + this.width / 2;
     this.min_x = this.x - this.width / 2;
@@ -60,6 +47,7 @@ export default class Primitive {
 
     this.center = new THREE.Vector3(this.x, this.y, this.z);
   }
+
   clone() {
     var P1 = new Primitive();
     P1.x = this.x;
@@ -138,9 +126,23 @@ export default class Primitive {
   }
 
   get_mass() {
-    var Volume = this.width * this.height * this.depth * 20 * 20 * 20;
-    return Volume * 0.71;
+    var Volume =
+      this.width *
+      this.height *
+      this.depth *
+      CONSTANTS.UNIT_VALUE *
+      CONSTANTS.UNIT_VALUE *
+      CONSTANTS.UNIT_VALUE;
+    var Volume_m3 = Volume / 1000000;
+
+    var Density = 750;
+
+    var Mass = Volume_m3 * Density;
+
+    return Mass;
   }
+
+  get_volume() {}
 
   get_extents() {
     extents = [
