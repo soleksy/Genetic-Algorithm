@@ -40,8 +40,18 @@ population.Fix_Overlapping_Primitives(PHENOTYPES);
 // 4) Evaluate the corrected phenotypes
 var weighted_sum = evaluation.get_weighted_sum(PHENOTYPES);
 console.log(weighted_sum);
+
 // 5) Perform the standard Genetic Algorithm to obtain new population
-var GeneticAlgorithm = () => {};
+var GeneticAlgorithm = (Phenotypes) => {
+  var Genotypes = population.StoreGenotypes(Phenotypes);
+  var Weighted_Sum = evaluation.get_weighted_sum(Phenotypes);
+  var Selected = population.Selection(Genotypes, 10, Weighted_Sum);
+  console.log(Selected);
+  //CROSSING
+  //RETURN OFFSPRINGS
+};
+
+GeneticAlgorithm(PHENOTYPES);
 // 6) Repeat the process until some condition
 
 var i = 0;

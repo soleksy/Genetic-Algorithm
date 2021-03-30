@@ -1,6 +1,7 @@
 import * as CONSTANTS from '../CONSTANTS.js';
 import Primitive from '../Primitive.js';
 import * as math from './math.js';
+import * as utils from './utils.js';
 
 var generate_parameters = () => {
   var x =
@@ -107,10 +108,40 @@ var Fix_Overlapping_Primitives = (Phenotypes) => {
   }
 };
 
+var Selection = (Phenotypes, Num_Of_Selections, Weighted_Sum) => {
+  var selected = [];
+
+  var probabilities;
+  var sorted_probabilities;
+  var indeces;
+  var select;
+
+  for (var i = 0; i < Num_Of_Selections; i++) {
+    probabilities = utils.roulette_wheel(Weighted_Sum);
+    sorted_probabilities = probabilities.slice();
+    sorted_probabilities.sort();
+    indeces = utils.sortWithIndeces(probabilities);
+    select = utils.select_individual(sorted_probabilities);
+    //console.log(Weighted_Sum); // uncomment for selection testing purpouses
+    //console.log(probabilities);
+    //console.log(sorted_probabilities);
+    //console.log(indeces);
+    //console.log(select);
+    //console.log(Phenotypes);
+    selected.push(clonePhenotype(Phenotypes[indeces[select]]));
+    Phenotypes = utils.get_new_arr(indeces[select], Phenotypes);
+    probabilities = utils.get_new_arr(indeces[select], probabilities);
+    Weighted_Sum = utils.get_new_arr(indeces[select], Weighted_Sum);
+  }
+
+  return selected;
+};
+
 export {
   Population_INIT,
   clonePhenotype,
   StoreGenotypes,
   clonePrimitive,
   Fix_Overlapping_Primitives,
+  Selection,
 };

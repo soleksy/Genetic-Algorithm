@@ -71,4 +71,77 @@ var is_disconnected = (Phenotype) => {
   }
 };
 
-export { drawPhenotype, deletePhenotype, is_disconnected };
+var roulette_wheel = (weighted_sum) => {
+  var probabilities = [];
+  var sum = 0;
+  for (var i = 0; i < weighted_sum.length; i++) {
+    sum += weighted_sum[i];
+  }
+
+  for (var i = 0; i < weighted_sum.length; i++) {
+    probabilities[i] = weighted_sum[i] / sum;
+  }
+
+  return probabilities;
+};
+
+var sortWithIndeces = (toSort) => {
+  var temp = toSort.slice();
+  for (var i = 0; i < temp.length; i++) {
+    temp[i] = [temp[i], i];
+  }
+  temp.sort(function (left, right) {
+    return left[0] < right[0] ? -1 : 1;
+  });
+  temp.sortIndices = [];
+  for (var j = 0; j < temp.length; j++) {
+    temp.sortIndices.push(temp[j][1]);
+    temp[j] = temp[j][0];
+  }
+  return temp.sortIndices;
+};
+
+var select_individual = (sorted_probabilities) => {
+  var sums = [];
+
+  for (var i = 0; i < sorted_probabilities.length; i++) {
+    sums[i] = 0;
+    for (var j = 0; j <= i; j++) {
+      sums[i] += sorted_probabilities[j];
+    }
+  }
+
+  var random = Math.random();
+  for (var i = 0; i < sorted_probabilities.length; i++) {
+    if (random < sums[i]) {
+      return i;
+    }
+  }
+};
+
+var get_new_arr = (index, array) => {
+  var arr = [];
+  var flag = 0;
+  for (var i = 0; i < array.length; i++) {
+    if (i == index) {
+      flag = 1;
+      continue;
+    }
+    if (flag == 1) {
+      arr[i - 1] = array[i];
+    } else {
+      arr[i] = array[i];
+    }
+  }
+  return arr;
+};
+
+export {
+  drawPhenotype,
+  deletePhenotype,
+  is_disconnected,
+  roulette_wheel,
+  sortWithIndeces,
+  select_individual,
+  get_new_arr,
+};
