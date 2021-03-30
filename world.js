@@ -47,8 +47,11 @@ var GeneticAlgorithm = (Phenotypes) => {
   var Weighted_Sum = evaluation.get_weighted_sum(Phenotypes);
   var Selected = population.Selection(Genotypes, 10, Weighted_Sum);
   console.log(Selected);
-  //CROSSING
-  //RETURN OFFSPRINGS
+  var Offsprings = population.Crossing(
+    Selected,
+    CONSTANTS.INITIAL_POPULATION_SIZE
+  );
+  return Offsprings;
 };
 
 GeneticAlgorithm(PHENOTYPES);

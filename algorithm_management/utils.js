@@ -136,6 +136,12 @@ var get_new_arr = (index, array) => {
   return arr;
 };
 
+var getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 export {
   drawPhenotype,
   deletePhenotype,
@@ -144,4 +150,5 @@ export {
   sortWithIndeces,
   select_individual,
   get_new_arr,
+  getRandomInt,
 };

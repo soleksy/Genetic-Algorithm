@@ -137,6 +137,110 @@ var Selection = (Phenotypes, Num_Of_Selections, Weighted_Sum) => {
   return selected;
 };
 
+var Crossing = (Genotypes, Num_Of_Offsprings) => {
+  var Offsprings = [];
+  for (var i = 0; i < Num_Of_Offsprings; i++) {
+    Offsprings[i] = [
+      new Primitive(),
+      new Primitive(),
+      new Primitive(),
+      new Primitive(),
+      new Primitive(),
+    ];
+  }
+
+  for (var i = 0; i < Num_Of_Offsprings; i++) {
+    var P1 = utils.getRandomInt(0, Genotypes.length - 1);
+    var P2 = utils.getRandomInt(0, Genotypes.length - 1);
+
+    var crossing_point1 = utils.getRandomInt(0, 1);
+    var crossing_point2 = utils.getRandomInt(0, 1);
+    var cointoss = utils.getRandomInt(0, 1);
+    var mutation = utils.getRandomInt(0, 100);
+
+    for (var j = 0; j < CONSTANTS.PRIMITIVES; j++) {
+      if (cointoss == 0) {
+        if (crossing_point1 == 0) {
+          Offsprings[i][j].x = Genotypes[P1][j].x;
+          Offsprings[i][j].y = Genotypes[P2][j].y;
+          Offsprings[i][j].z = Genotypes[P2][j].z;
+        } else {
+          Offsprings[i][j].x = Genotypes[P1][j].x;
+          Offsprings[i][j].y = Genotypes[P1][j].y;
+          Offsprings[i][j].z = Genotypes[P2][j].z;
+        }
+        if (crossing_point2 == 0) {
+          Offsprings[i][j].width = Genotypes[P1][j].width;
+          Offsprings[i][j].height = Genotypes[P2][j].height;
+          Offsprings[i][j].depth = Genotypes[P2][j].depth;
+        } else {
+          Offsprings[i][j].width = Genotypes[P1][j].width;
+          Offsprings[i][j].height = Genotypes[P1][j].height;
+          Offsprings[i][j].depth = Genotypes[P2][j].depth;
+        }
+      } else {
+        if (crossing_point1 == 0) {
+          Offsprings[i][j].x = Genotypes[P2][j].x;
+          Offsprings[i][j].y = Genotypes[P1][j].y;
+          Offsprings[i][j].z = Genotypes[P1][j].z;
+        } else {
+          Offsprings[i][j].x = Genotypes[P2][j].x;
+          Offsprings[i][j].y = Genotypes[P2][j].y;
+          Offsprings[i][j].z = Genotypes[P1][j].z;
+        }
+        if (crossing_point2 == 0) {
+          Offsprings[i][j].width = Genotypes[P2][j].width;
+          Offsprings[i][j].height = Genotypes[P1][j].height;
+          Offsprings[i][j].depth = Genotypes[P1][j].depth;
+        } else {
+          Offsprings[i][j].width = Genotypes[P2][j].width;
+          Offsprings[i][j].height = Genotypes[P2][j].height;
+          Offsprings[i][j].depth = Genotypes[P1][j].depth;
+        }
+      }
+      if (mutation < 2) {
+        var toss = getRandomInt(0, 7);
+        if (toss == 0) {
+          Offsprings[i][j].width *= 0.8;
+          Offsprings[i][j].height *= 0.8;
+          Offsprings[i][j].depth *= 0.8;
+        } else if (toss == 1) {
+          Offsprings[i][j].width *= 1.2;
+          Offsprings[i][j].height *= 0.8;
+          Offsprings[i][j].depth *= 0.8;
+        } else if (toss == 2) {
+          Offsprings[i][j].width *= 1.2;
+          Offsprings[i][j].height *= 1.2;
+          Offsprings[i][j].depth *= 0.8;
+        } else if (toss == 3) {
+          Offsprings[i][j].width *= 1.2;
+          Offsprings[i][j].height *= 1.2;
+          Offsprings[i][j].depth *= 1.2;
+        } else if (toss == 4) {
+          Offsprings[i][j].width *= 1.2;
+          Offsprings[i][j].height *= 0.8;
+          Offsprings[i][j].depth *= 1.2;
+        } else if (toss == 5) {
+          Offsprings[i][j].width *= 0.8;
+          Offsprings[i][j].height *= 1.2;
+          Offsprings[i][j].depth *= 1.2;
+        } else if (toss == 6) {
+          Offsprings[i][j].width *= 0.8;
+          Offsprings[i][j].height *= 0.8;
+          Offsprings[i][j].depth *= 1.2;
+        } else if (toss == 7) {
+          Offsprings[i][j].width *= 0.8;
+          Offsprings[i][j].height *= 1.2;
+          Offsprings[i][j].depth *= 0.8;
+        }
+      }
+      Offsprings[i][j].update();
+    }
+  }
+
+  return Offsprings;
+};
+
 export {
   Population_INIT,
   clonePhenotype,
@@ -144,4 +248,5 @@ export {
   clonePrimitive,
   Fix_Overlapping_Primitives,
   Selection,
+  Crossing,
 };
