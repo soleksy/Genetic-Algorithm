@@ -2,7 +2,6 @@ import * as CONSTANTS from './CONSTANTS.js';
 import { createControls } from '/system/controls.js';
 import * as population from './algorithm_management/population.js';
 import * as evaluation from './algorithm_management/evaluation.js';
-import * as properties from './algorithm_management/properties.js';
 import * as utils from './algorithm_management/utils.js';
 import Primitive from './Primitive.js';
 var scene = new THREE.Scene();
@@ -54,7 +53,9 @@ var GeneticAlgorithm = (Phenotypes) => {
   return Offsprings;
 };
 
-GeneticAlgorithm(PHENOTYPES);
+var Phenotype_LOOP = GeneticAlgorithm(PHENOTYPES);
+
+evaluation.get_avarages(Phenotype_LOOP);
 // 6) Repeat the process until some condition
 
 var i = 0;

@@ -3,6 +3,7 @@ import * as properties from './properties.js';
 import * as math from './math.js';
 import * as utils from './utils.js';
 import * as population from './population.js';
+
 // MASS EVALUATION //
 var calculate_mass = (Phenotypes) => {
   var i, j;
@@ -160,6 +161,19 @@ var evaluate_table_top = (areas) => {
   return table_top_eval;
 };
 
+var get_distances = function (Phenotypes) {
+  var distances = [];
+  for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
+    var arr = math.calculate_desired_center_of_mass(Phenotypes[i]);
+    var center_of_mass = math.calculate_center_of_mass(Phenotypes[i]);
+    distances[i] = math.distance_between_points(
+      [arr[0], arr[1], arr[2]],
+      [center_of_mass[0], arr[1], center_of_mass[2]]
+    );
+  }
+  return distances;
+};
+
 var get_weighted_sum = (Phenotypes) => {
   var masses = [];
   var mass_eval = [];
@@ -205,4 +219,60 @@ var get_weighted_sum = (Phenotypes) => {
   return weighted_sum;
 };
 
-export { get_weighted_sum };
+var get_avarages = (Phenotypes) => {
+  var mass = [];
+  var area = [];
+  var size = [];
+  var dist = [];
+  var connect = [];
+  var top = [];
+
+  mass = calculate_mass(Phenotypes);
+  const sum1 = mass.reduce((a, b) => a + b, 0);
+  const avg1 = sum1 / mass.length || 0;
+
+  console.log(
+    `The IDEAL_MASS is: ${CONSTANTS.IDEAL_MASS}. The average is: ${avg1}`
+  );
+  //_________________________________________________________________________//
+
+  size = calculate_size(Phenotypes);
+
+  const sum2 = size.reduce((a, b) => a + b, 0);
+  const avg2 = sum2 / size.length || 0;
+
+  console.log(
+    `The IDEAL_SIZE is: ${CONSTANTS.IDEAL_SIZE}. The average is: ${avg2}`
+  );
+  //_________________________________________________________________________//
+
+  area = calculate_table_top(Phenotypes);
+
+  const sum3 = area.reduce((a, b) => a + b, 0);
+  const avg3 = sum3 / area.length || 0;
+
+  console.log(
+    `The IDEAL_AREA is: ${CONSTANTS.IDEAL_COUNTER_AREA}. The average is: ${avg3}`
+  );
+  //_________________________________________________________________________//
+  dist = get_distances(Phenotypes);
+
+  const sum4 = dist.reduce((a, b) => a + b, 0);
+  const avg4 = sum4 / dist.length || 0;
+
+  console.log(
+    `The DISTANCE IS  is: ${CONSTANTS.IDEAL_CENTER_OF_MASS}. The average is: ${avg4}`
+  );
+  //_________________________________________________________________________//
+
+  top = calculate_heights(Phenotypes);
+
+  const sum5 = top.reduce((a, b) => a + b, 0);
+  const avg5 = sum5 / top.length || 0;
+
+  console.log(
+    `The IDEAL_TOP_HEIGHT is: ${CONSTANTS.IDEAL_TABLE_HEIGHT}. The average is: ${avg5}`
+  );
+};
+
+export { get_weighted_sum, get_avarages };

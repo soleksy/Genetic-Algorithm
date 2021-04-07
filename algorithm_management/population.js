@@ -199,7 +199,7 @@ var Crossing = (Genotypes, Num_Of_Offsprings) => {
         }
       }
       if (mutation < 2) {
-        var toss = getRandomInt(0, 7);
+        var toss = utils.getRandomInt(0, 7);
         if (toss == 0) {
           Offsprings[i][j].width *= 0.8;
           Offsprings[i][j].height *= 0.8;
