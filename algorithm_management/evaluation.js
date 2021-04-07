@@ -46,8 +46,6 @@ var calculate_size = (Phenotypes) => {
     var height = Math.abs(extents[2] - extents[3]).toFixed(2);
     var depth = Math.abs(extents[4] - extents[5]).toFixed(2);
 
-    console.log(width, height, depth);
-
     var p_size = 2 * (width * height + depth * height + depth * width);
     size[i] = p_size;
   }
@@ -161,7 +159,7 @@ var evaluate_table_top = (areas) => {
   return table_top_eval;
 };
 
-var get_distances = function (Phenotypes) {
+var calculate_distances = function (Phenotypes) {
   var distances = [];
   for (var i = 0; i < CONSTANTS.INITIAL_POPULATION_SIZE; i++) {
     var arr = math.calculate_desired_center_of_mass(Phenotypes[i]);
@@ -189,7 +187,6 @@ var get_weighted_sum = (Phenotypes) => {
   var top = [];
   var top_eval = [];
 
-  population.Fix_Overlapping_Primitives(Phenotypes);
   masses = calculate_mass(Phenotypes);
   mass_eval = evaluate_mass(masses);
 
@@ -255,7 +252,7 @@ var get_avarages = (Phenotypes) => {
     `The IDEAL_AREA is: ${CONSTANTS.IDEAL_COUNTER_AREA}. The average is: ${avg3}`
   );
   //_________________________________________________________________________//
-  dist = get_distances(Phenotypes);
+  dist = calculate_distances(Phenotypes);
 
   const sum4 = dist.reduce((a, b) => a + b, 0);
   const avg4 = sum4 / dist.length || 0;
@@ -275,4 +272,33 @@ var get_avarages = (Phenotypes) => {
   );
 };
 
-export { get_weighted_sum, get_avarages };
+var get_starting_avarages = (Phenotypes) => {
+  var starting_mass = calculate_mass(Phenotypes);
+  var starting_size = calculate_size(Phenotypes);
+  var starting_distancs = calculate_distances(Phenotypes);
+  var starting_heights = calculate_heights(Phenotypes);
+  var starting_areas = calculate_table_top(Phenotypes);
+
+  const sum1 = starting_mass.reduce((a, b) => a + b, 0);
+  const avg1 = sum1 / starting_mass.length || 0;
+
+  const sum2 = starting_size.reduce((a, b) => a + b, 0);
+  const avg2 = sum2 / starting_size.length || 0;
+
+  const sum3 = starting_distancs.reduce((a, b) => a + b, 0);
+  const avg3 = sum3 / starting_distancs.length || 0;
+
+  const sum4 = starting_heights.reduce((a, b) => a + b, 0);
+  const avg4 = sum4 / starting_heights.length || 0;
+
+  const sum5 = starting_areas.reduce((a, b) => a + b, 0);
+  const avg5 = sum5 / starting_areas.length || 0;
+
+  console.log('Srednia Masa na poczatku ' + avg1);
+  console.log('Srednia wielkosc na poczatku ' + avg2);
+  console.log('Srednia odleglosc na poczatku ' + avg3);
+  console.log('Srednia wysokość na poczatku ' + avg4);
+  console.log('Srednie pole blatu na poczatku ' + avg5);
+};
+
+export { get_weighted_sum, get_avarages, get_starting_avarages };

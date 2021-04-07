@@ -23,29 +23,12 @@ scene.add(axesHelper);
 
 camera.position.set(0, 0, 20);
 
-// 1) Generate Initial Population
-var PHENOTYPES = population.Population_INIT();
-
-// 2) Store genotypes for future use, the initial genotypes will be altered due to normalization but the their initial value is needed
-//    for the evolution process.
-
-var GENOTYPES = [];
-GENOTYPES = population.StoreGenotypes(PHENOTYPES);
-
-// 3) Correct the phenotypes (solve the problem of overlapping) using SAT theorem.
-
-population.Fix_Overlapping_Primitives(PHENOTYPES);
-
-// 4) Evaluate the corrected phenotypes
-var weighted_sum = evaluation.get_weighted_sum(PHENOTYPES);
-console.log(weighted_sum);
-
-// 5) Perform the standard Genetic Algorithm to obtain new population
+// Perform the standard Genetic Algorithm to obtain new population
 var GeneticAlgorithm = (Phenotypes) => {
   var Genotypes = population.StoreGenotypes(Phenotypes);
+  population.Fix_Overlapping_Primitives(Phenotypes);
   var Weighted_Sum = evaluation.get_weighted_sum(Phenotypes);
-  var Selected = population.Selection(Genotypes, 10, Weighted_Sum);
-  console.log(Selected);
+  var Selected = population.Selection(Genotypes, 80, Weighted_Sum);
   var Offsprings = population.Crossing(
     Selected,
     CONSTANTS.INITIAL_POPULATION_SIZE
@@ -53,13 +36,23 @@ var GeneticAlgorithm = (Phenotypes) => {
   return Offsprings;
 };
 
-var Phenotype_LOOP = GeneticAlgorithm(PHENOTYPES);
+var PHENOTYPES = population.Population_INIT();
 
-evaluation.get_avarages(Phenotype_LOOP);
-// 6) Repeat the process until some condition
+for (var i = 0; i <= CONSTANTS.NUM_OF_GENERATIONS; i++) {
+  console.log('Generacja' + i + ' z ' + CONSTANTS.NUM_OF_GENERATIONS);
+  PHENOTYPES = GeneticAlgorithm(PHENOTYPES);
+
+  if (i == CONSTANTS.NUM_OF_GENERATIONS) {
+    evaluation.get_avarages(PHENOTYPES);
+  }
+  if (i == 0) {
+    evaluation.get_starting_avarages(PHENOTYPES);
+  }
+}
+
+console.log(PHENOTYPES);
 
 var i = 0;
-
 // DRAW THE INITIAL POPULATION
 document.addEventListener('keydown', (e) => {
   if (e.code == 'ArrowRight') {

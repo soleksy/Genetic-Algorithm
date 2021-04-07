@@ -145,7 +145,6 @@ var Crossing = (Genotypes, Num_Of_Offsprings) => {
       new Primitive(),
       new Primitive(),
       new Primitive(),
-      new Primitive(),
     ];
   }
 
